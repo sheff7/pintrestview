@@ -1,8 +1,8 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:pintrestview/VideoPlayerWidget.dart';
 import 'package:video_player/video_player.dart';
-
 
 // import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
@@ -14,36 +14,47 @@ class PinterestClone extends StatefulWidget {
 }
 
 class _PinterestCloneState extends State<PinterestClone> {
-  VideoPlayerController? _controller;
+  VideoPlayerController? controller;
 
   @override
   void initState() {
     super.initState();
+    {
+      if( 'https://firebasestorage.googleapis.com/v0/b/todoflutter-39a8e.appspot.com/o/WhatsApp%20Video%202023-03-25%20at%2010.56.23%20PM.mp4?alt=media&token=d1e74156-a2d6-4fd7-8bd2-b8ecdfc7c757'.trim().isEmpty) return;
+//incase our text is new text then again initializing
+      controller = VideoPlayerController.network('https://firebasestorage.googleapis.com/v0/b/todoflutter-39a8e.appspot.com/o/WhatsApp%20Video%202023-03-25%20at%2010.56.23%20PM.mp4?alt=media&token=d1e74156-a2d6-4fd7-8bd2-b8ecdfc7c757')
+        ..addListener(() => setState(() {}))
+        ..setLooping(true)
+        ..initialize().then((value) => controller!.play());
+      //
+    }
+
+
 
     // _controller = VideoPlayerController.file(sub1!)
     //   ..initialize().then((_) {
     //     setState(() {});
     //   });
 
-    _controller = VideoPlayerController.network(
-      'https://firebasestorage.googleapis.com/v0/b/todoflutter-39a8e.appspot.com/o/WhatsApp%20Video%202023-03-25%20at%2010.56.23%20PM.mp4?alt=media&token=d1e74156-a2d6-4fd7-8bd2-b8ecdfc7c757',
-    )..initialize().then((_) {
-      setState(() {});
-    });
+    // _controller = VideoPlayerController.network(
+    //   'https://firebasestorage.googleapis.com/v0/b/todoflutter-39a8e.appspot.com/o/WhatsApp%20Video%202023-03-25%20at%2010.56.23%20PM.mp4?alt=media&token=d1e74156-a2d6-4fd7-8bd2-b8ecdfc7c757',
+    // )..initialize().then((_) {
+    //   setState(() {});
+    // });
   }
 
-  @override
-  void dispose() {
-    super.dispose();
-    _controller!.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   super.dispose();
+  //   _controller!.dispose();
+  // }
   @override
   Widget build(BuildContext context) {
-    final chewieController = ChewieController(
-      videoPlayerController: _controller!,
-      autoPlay: true,
-      looping: true,
-    );
+    // final chewieController = ChewieController(
+    //   videoPlayerController: _controller!,
+    //   autoPlay: true,
+    //   looping: true,
+    // );
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -68,162 +79,168 @@ class _PinterestCloneState extends State<PinterestClone> {
         child: MasonryGridView.count(
           crossAxisCount: 2,
           mainAxisSpacing: 8,
-          crossAxisSpacing: 8,
+          crossAxisSpacing: 2,
           itemCount: posts.length,
           itemBuilder: (context, index) {
-
-            return Center(
-              child: _controller!.value.isInitialized
-                  ? AspectRatio(
-                aspectRatio: _controller!.value.aspectRatio,
-                child: Chewie(
-                  controller: chewieController,
-                ),
-              )
-                  : Container(),
+            return
+                // Container(
+                //   child: Chewie(
+                //     controller: chewieController,
+                //   ),
+                // );
+                //   Center(
+                //   child: _controller!.value.isInitialized
+                //       ? AspectRatio(
+                //     aspectRatio: _controller!.value.aspectRatio,
+                //     child: ,
+                //   )
+                //       : Container(),
+                // );
+                Column(
+                  children: [
+                    VideoPlayerWidget(controller: controller!),
+                  ],
+              // children: [
+              //   ClipRRect(
+              //     borderRadius: BorderRadius.circular(15),
+              //     child: Image.network(
+              //       posts[index].imageUrl,
+              //       fit: BoxFit.cover,
+              //     ),
+              //   ),
+              //   Row(
+              //     crossAxisAlignment: CrossAxisAlignment.center,
+              //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              //     children: [
+              //       Text(
+              //         posts[index].title,
+              //         style: const TextStyle(
+              //             fontWeight: FontWeight.w700, fontSize: 12),
+              //       ),
+              //       GestureDetector(
+              //         onTap: () {
+              //           showModalBottomSheet(
+              //             backgroundColor: Colors.transparent,
+              //             context: context,
+              //             builder: (BuildContext context) {
+              //               return Container(
+              //                 padding: const EdgeInsets.symmetric(vertical: 30),
+              //                 height: MediaQuery.of(context).size.height / 2,
+              //                 decoration: BoxDecoration(
+              //                   color: Colors.white,
+              //                   borderRadius: BorderRadius.circular(35),
+              //                 ),
+              //                 child: Column(
+              //                   children: [
+              //                     const Text(
+              //                       "Share to",
+              //                       style: TextStyle(
+              //                           fontWeight: FontWeight.bold,
+              //                           fontSize: 14),
+              //                     ),
+              //                     const SizedBox(
+              //                       height: 17,
+              //                     ),
+              //                     SizedBox(
+              //                       height: 100.0,
+              //                       child: ListView.builder(
+              //                         scrollDirection: Axis.horizontal,
+              //                         itemCount: sharePosts.length,
+              //                         itemBuilder: (context, index) {
+              //                           return SizedBox(
+              //                             width: 90,
+              //                             child: Column(children: [
+              //                               CircleAvatar(
+              //                                 backgroundColor: Colors.black,
+              //                                 radius: 35,
+              //                                 backgroundImage: AssetImage(
+              //                                   'assets/images/${sharePosts[index].imageUrl}',
+              //                                 ),
+              //                               ),
+              //                               const Spacer(),
+              //                               Text(
+              //                                 sharePosts[index].id,
+              //                                 overflow: TextOverflow.ellipsis,
+              //                                 style: const TextStyle(
+              //                                     fontSize: 12,
+              //                                     color: Colors.black,
+              //                                     fontWeight: FontWeight.w500),
+              //                               )
+              //                             ]),
+              //                           );
+              //                         },
+              //                       ),
+              //                     ),
+              //                     const Padding(
+              //                       padding: EdgeInsets.symmetric(
+              //                           vertical: 7, horizontal: 15),
+              //                       child: Divider(
+              //                         color: Colors.grey,
+              //                         height: 5,
+              //                       ),
+              //                     ),
+              //                     const Spacer(),
+              //                     Container(
+              //                       alignment: Alignment.centerLeft,
+              //                       padding: const EdgeInsets.symmetric(
+              //                           horizontal: 15),
+              //                       child: Column(
+              //                         crossAxisAlignment:
+              //                             CrossAxisAlignment.start,
+              //                         children: const [
+              //                           Text(
+              //                             "This Pin was inspired by your recent activity",
+              //                             style: TextStyle(fontSize: 14),
+              //                             textAlign: TextAlign.left,
+              //                           ),
+              //                           SizedBox(
+              //                             height: 20,
+              //                           ),
+              //                           Text(
+              //                             "Hide",
+              //                             style: TextStyle(
+              //                                 fontSize: 19,
+              //                                 fontWeight: FontWeight.w600),
+              //                           ),
+              //                           SizedBox(
+              //                             height: 12,
+              //                           ),
+              //                           Text(
+              //                             "Report",
+              //                             style: TextStyle(
+              //                                 fontSize: 19,
+              //                                 fontWeight: FontWeight.w600),
+              //                           )
+              //                         ],
+              //                       ),
+              //                     ),
+              //                     const Spacer(),
+              //                     GestureDetector(
+              //                       onTap: () => Navigator.pop(context),
+              //                       child: Container(
+              //                         padding: const EdgeInsets.symmetric(
+              //                             vertical: 20, horizontal: 26),
+              //                         decoration: BoxDecoration(
+              //                             borderRadius:
+              //                                 BorderRadius.circular(30),
+              //                             color: Colors.grey.shade300),
+              //                         child: const Text("Close",
+              //                             style: TextStyle(
+              //                                 fontWeight: FontWeight.w600)),
+              //                       ),
+              //                     )
+              //                   ],
+              //                 ),
+              //               );
+              //             },
+              //           );
+              //         },
+              //         child: const Icon(Icons.more_horiz),
+              //       ),
+              //     ],
+              //   )
+              // ],
             );
-            //   Column(
-            //   children: [
-            //     ClipRRect(
-            //       borderRadius: BorderRadius.circular(15),
-            //       child: Image.network(
-            //         posts[index].imageUrl,
-            //         fit: BoxFit.cover,
-            //       ),
-            //     ),
-            //     Row(
-            //       crossAxisAlignment: CrossAxisAlignment.center,
-            //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //       children: [
-            //         Text(
-            //           posts[index].title,
-            //           style: const TextStyle(
-            //               fontWeight: FontWeight.w700, fontSize: 12),
-            //         ),
-            //         GestureDetector(
-            //           onTap: () {
-            //             showModalBottomSheet(
-            //               backgroundColor: Colors.transparent,
-            //               context: context,
-            //               builder: (BuildContext context) {
-            //                 return Container(
-            //                   padding: const EdgeInsets.symmetric(vertical: 30),
-            //                   height: MediaQuery.of(context).size.height / 2,
-            //                   decoration: BoxDecoration(
-            //                     color: Colors.white,
-            //                     borderRadius: BorderRadius.circular(35),
-            //                   ),
-            //                   child: Column(
-            //                     children: [
-            //                       const Text(
-            //                         "Share to",
-            //                         style: TextStyle(
-            //                             fontWeight: FontWeight.bold,
-            //                             fontSize: 14),
-            //                       ),
-            //                       const SizedBox(
-            //                         height: 17,
-            //                       ),
-            //                       SizedBox(
-            //                         height: 100.0,
-            //                         child: ListView.builder(
-            //                           scrollDirection: Axis.horizontal,
-            //                           itemCount: sharePosts.length,
-            //                           itemBuilder: (context, index) {
-            //                             return SizedBox(
-            //                               width: 90,
-            //                               child: Column(children: [
-            //                                 CircleAvatar(
-            //                                   backgroundColor: Colors.black,
-            //                                   radius: 35,
-            //                                   backgroundImage: AssetImage(
-            //                                     'assets/images/${sharePosts[index].imageUrl}',
-            //                                   ),
-            //                                 ),
-            //                                 const Spacer(),
-            //                                 Text(
-            //                                   sharePosts[index].id,
-            //                                   overflow: TextOverflow.ellipsis,
-            //                                   style: const TextStyle(
-            //                                       fontSize: 12,
-            //                                       color: Colors.black,
-            //                                       fontWeight: FontWeight.w500),
-            //                                 )
-            //                               ]),
-            //                             );
-            //                           },
-            //                         ),
-            //                       ),
-            //                       const Padding(
-            //                         padding: EdgeInsets.symmetric(
-            //                             vertical: 7, horizontal: 15),
-            //                         child: Divider(
-            //                           color: Colors.grey,
-            //                           height: 5,
-            //                         ),
-            //                       ),
-            //                       const Spacer(),
-            //                       Container(
-            //                         alignment: Alignment.centerLeft,
-            //                         padding: const EdgeInsets.symmetric(
-            //                             horizontal: 15),
-            //                         child: Column(
-            //                           crossAxisAlignment:
-            //                           CrossAxisAlignment.start,
-            //                           children: const [
-            //                             Text(
-            //                               "This Pin was inspired by your recent activity",
-            //                               style: TextStyle(fontSize: 14),
-            //                               textAlign: TextAlign.left,
-            //                             ),
-            //                             SizedBox(
-            //                               height: 20,
-            //                             ),
-            //                             Text(
-            //                               "Hide",
-            //                               style: TextStyle(
-            //                                   fontSize: 19,
-            //                                   fontWeight: FontWeight.w600),
-            //                             ),
-            //                             SizedBox(
-            //                               height: 12,
-            //                             ),
-            //                             Text(
-            //                               "Report",
-            //                               style: TextStyle(
-            //                                   fontSize: 19,
-            //                                   fontWeight: FontWeight.w600),
-            //                             )
-            //                           ],
-            //                         ),
-            //                       ),
-            //                       const Spacer(),
-            //                       GestureDetector(
-            //                         onTap: () => Navigator.pop(context),
-            //                         child: Container(
-            //                           padding: const EdgeInsets.symmetric(
-            //                               vertical: 20, horizontal: 26),
-            //                           decoration: BoxDecoration(
-            //                               borderRadius:
-            //                               BorderRadius.circular(30),
-            //                               color: Colors.grey.shade300),
-            //                           child: const Text("Close",
-            //                               style: TextStyle(
-            //                                   fontWeight: FontWeight.w600)),
-            //                         ),
-            //                       )
-            //                     ],
-            //                   ),
-            //                 );
-            //               },
-            //             );
-            //           },
-            //           child: const Icon(Icons.more_horiz),
-            //         ),
-            //       ],
-            //     )
-            //   ],
-            // );
           },
         ),
       ),
@@ -237,10 +254,10 @@ class Post {
   final String title;
 
   Post(
-      this.id,
-      this.imageUrl,
-      this.title,
-      );
+    this.id,
+    this.imageUrl,
+    this.title,
+  );
 }
 
 final List<Post> posts = [
